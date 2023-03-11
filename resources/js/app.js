@@ -4,7 +4,9 @@ import '../css/app.css';
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
+import { InertiaProgress } from '@inertiajs/progress'
+
+// import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 
 const appName = window.document.getElementsByTagName('title')[0]?.innerText || 'Laravel';
 
@@ -25,14 +27,17 @@ createInertiaApp({
                             if (allPermissions[item]) hasPermission = true;
                         });
                         return hasPermission;
+                    },
+                    base_url: function (base_url) {
+
                     }
                 },
             })
             .use(plugin)
-            .use(ZiggyVue, Ziggy)
+            // .use(ZiggyVue, Ziggy)
             .mount(el);
-    },
-    progress: {
-        color: '#4B5563',
-    },
+    }
 });
+
+
+InertiaProgress.init()

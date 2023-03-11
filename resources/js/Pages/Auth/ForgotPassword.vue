@@ -1,61 +1,108 @@
-<script setup>
-import { Head, useForm } from '@inertiajs/vue3';
-import AuthenticationCard from '@/Components/AuthenticationCard.vue';
-import AuthenticationCardLogo from '@/Components/AuthenticationCardLogo.vue';
-import InputError from '@/Components/InputError.vue';
-import InputLabel from '@/Components/InputLabel.vue';
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+<template>
+    <Head>
+        <title>Forgot Password - Aplikasi Kasir</title>
+    </Head>
+    <div class="col-md-4">
+        <div class="fade-in">
+            <div class="text-center mb-4">
+                <a href="" class="text-dark text-decoration-none">
+                    <img src="/images/cash-machine.png" width="70">
+                    <h3 class="mt-2 font-weight-bold">APLIKASI KASIR</h3>
+                </a>
+            </div>
+            <div class="card-group">
+                <div class="card border-top-purple border-0 shadow-sm rounded-3">
+                    <div class="card-body">
+                        <div class="text-start">
+                            <h5>RESET PASSWORD</h5>
+                        </div>
+                        <hr>
+                        <div v-if="session.status" class="alert alert-success mt-2">
+                            {{ session.status }}
+                        </div>
+                        <form @submit.prevent="submit">
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                </div>
+                                <input class="form-control" v-model="form.email" :class="{ 'is-invalid': errors.email }"
+                                       type="email" placeholder="Email Address">
+                            </div>
+                            <div v-if="errors.email" class="alert alert-danger">
+                                {{ errors.email }}
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <button class="btn btn-primary shadow-sm rounded-sm px-4 w-100" type="submit">SEND
+                                        PASSWORD RESET LINK</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
 
-defineProps({
-    status: String,
-});
+<script>
+//import layout
+import LayoutAuth from '../../Layouts/Auth.vue';
 
-const form = useForm({
-    email: '',
-});
+//import reactive
+import { reactive } from 'vue';
 
-const submit = () => {
-    form.post(route('password.email'));
-};
+//inertia adapter
+import { Inertia } from '@inertiajs/inertia';
+
+//import Heade and useForm from Inertia
+import {
+    Head,
+    Link,
+} from '@inertiajs/vue3';
+
+export default {
+
+    //layout
+    layout: LayoutAuth,
+
+    //register component
+    components: {
+        Head,
+        Link
+    },
+
+    props: {
+        errors: Object,
+        session: Object
+    },
+
+    //define composition API
+    setup() {
+
+        //define form state
+        const form = reactive({
+            email: '',
+        });
+
+        //submit method
+        const submit = () => {
+            Inertia.post('/forgot-password', {
+                email: form.email
+            });
+        }
+
+        //return form state and submit method
+        return {
+            form,
+            submit,
+        };
+
+    }
+
+}
 </script>
 
-<template>
-    <Head title="Forgot Password" />
-
-    <AuthenticationCard>
-        <template #logo>
-            <AuthenticationCardLogo />
-        </template>
-
-        <div class="mb-4 text-sm text-gray-600">
-            Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
-        </div>
-
-        <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
-            {{ status }}
-        </div>
-
-        <form @submit.prevent="submit">
-            <div>
-                <InputLabel for="email" value="Email" />
-                <TextInput
-                    id="email"
-                    v-model="form.email"
-                    type="email"
-                    class="mt-1 block w-full"
-                    required
-                    autofocus
-                    autocomplete="username"
-                />
-                <InputError class="mt-2" :message="form.errors.email" />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Email Password Reset Link
-                </PrimaryButton>
-            </div>
-        </form>
-    </AuthenticationCard>
-</template>
+<style></style>
