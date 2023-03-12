@@ -54,9 +54,7 @@ class HandleInertiaRequests extends Middleware
                     'params' => $request->route()->parameters(),
                     'query' => $request->all(),
                 ];
-            },
-
-            'base_url' => url('')
+            }
         ]);
     }
 }

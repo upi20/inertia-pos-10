@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\LabController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -24,10 +25,10 @@ use Inertia\Inertia;
 //         'phpVersion' => PHP_VERSION,
 //     ]);
 // });
-
-Route::get('/', function () {
-    return redirect()->route('login');
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', 'index');
 });
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
