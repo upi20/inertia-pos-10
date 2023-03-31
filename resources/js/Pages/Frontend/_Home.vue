@@ -81,7 +81,6 @@ async function kirim() {
 }
 
 console.log(route("login"));
-console.log(route("login"));
 kirim();
 </script>
 
@@ -126,9 +125,8 @@ kirim();
     <button class="px-2" @click="plus">+</button>
     <div class="row mt-3">
       <div
-        v-for="(item, index) in datas.loop"
+        v-for="item in datas.loop"
         class="col-sm-12 col-sm-6 col-md-4 col-lg-3 col-xl-2 col-xxl-1 p-2"
-        :key="index"
       >
         <div
           class="d-flex justify-content-center align-items-center bg-primary"

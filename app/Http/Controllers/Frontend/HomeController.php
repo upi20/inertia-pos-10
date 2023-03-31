@@ -16,4 +16,14 @@ class HomeController extends Controller
             'title' => 'ASu'
         ]);
     }
+
+    public function login(Request $request)
+    {
+        return Inertia::render('Auth/_Login');
+    }
+
+    public function post_oke(Request $request)
+    {
+        return response()->json($request);
+    }
 }

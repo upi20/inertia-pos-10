@@ -39,7 +39,11 @@ Route::middleware([
     })->name('dashboard');
 });
 
-Route::get('/lab', [LabController::class, 'index']);
+Route::prefix('lab')->controller(HomeController::class)->group(function () {
+    Route::get('/', 'index');
+    Route::get('/login', 'login');
+    Route::post('/ok', 'post_oke');
+});
 
 //prefix "apps"
 Route::prefix('apps')->group(function () {

@@ -52,7 +52,13 @@
                                 </div>
                                 <div class="col-12">
                                     <button class="btn btn-primary shadow-sm rounded-sm px-4 w-100"
-                                            type="submit">LOGIN</button>
+                                            type="submit" :disabled="form.processing">
+                                        <div v-if="form.processing" class="spinner-border" role="status"
+                                             style="height: 1em; width: 1em;">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                        LOGIN
+                                    </button>
                                 </div>
                             </div>
                         </form>
@@ -67,16 +73,11 @@
 //import layout
 import LayoutAuth from '../../Layouts/Auth.vue';
 
-//import reactive
-import { reactive } from 'vue';
-
-//import inertia adapter
-import { Inertia } from '@inertiajs/inertia';
-
 //import Heade and useForm from Inertia
 import {
     Head,
     Link,
+    useForm
 } from '@inertiajs/vue3';
 
 export default {
@@ -99,22 +100,18 @@ export default {
     setup() {
 
         //define form state
-        const form = reactive({
+        const form = useForm({
             email: '',
             password: '',
         });
 
-        //submit method
         const submit = () => {
-
-            //send data to server
-            Inertia.post('/login', {
-
-                //data
-                email: form.email,
-                password: form.password,
+            form.transform(data => ({
+                ...data,
+            })).post(route('login'), {
+                onFinish: () => form.reset('password'),
             });
-        }
+        };
 
         //return form state and submit method
         return {

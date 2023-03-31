@@ -18,9 +18,9 @@ class CategoryController extends Controller
     public function index()
     {
         //get categories
-        $categories = Category::when(request()->q, function($categories) {
-            $categories = $categories->where('name', 'like', '%'. request()->q . '%');
-        })->latest()->paginate(5);
+        $categories = Category::when(request()->q, function ($categories) {
+            $categories = $categories->where('name', 'like', '%' . request()->q . '%');
+        })->latest()->paginate(2);
 
         //return inertia
         return Inertia::render('Apps/Categories/Index', [
@@ -97,7 +97,7 @@ class CategoryController extends Controller
          */
         $this->validate($request, [
             // 'image'    => 'mimes:jpeg,jpg,png|max:2000',
-            'name'          => 'required|unique:categories,name,'.$category->id,
+            'name'          => 'required|unique:categories,name,' . $category->id,
             'description'   => 'required'
         ]);
 
@@ -105,19 +105,18 @@ class CategoryController extends Controller
         if ($request->file('image')) {
 
             //remove old image
-            Storage::disk('local')->delete('public/category/'.basename($category->image));
-        
+            Storage::disk('local')->delete('public/category/' . basename($category->image));
+
             //upload new image
             $image = $request->file('image');
             $image->storeAs('public/category', $image->hashName());
 
             //update category with new image
             $category->update([
-                'image'=> $image->hashName(),
+                'image' => $image->hashName(),
                 'name' => $request->name,
                 'description'   => $request->description
             ]);
-
         }
 
         //update category without image
@@ -142,7 +141,7 @@ class CategoryController extends Controller
         $category = Category::findOrFail($id);
 
         //remove image
-        Storage::disk('local')->delete('public/category/'.basename($category->image));
+        Storage::disk('local')->delete('public/category/' . basename($category->image));
 
         //delete
         $category->delete();
