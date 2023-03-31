@@ -1,8 +1,6 @@
 <?php
 
 use App\Http\Controllers\Frontend\HomeController;
-use App\Http\Controllers\LabController;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -17,16 +15,8 @@ use Inertia\Inertia;
 |
 */
 
-// Route::get('/', function () {
-//     return Inertia::render('Welcome', [
-//         'canLogin' => Route::has('login'),
-//         'canRegister' => Route::has('register'),
-//         'laravelVersion' => Application::VERSION,
-//         'phpVersion' => PHP_VERSION,
-//     ]);
-// });
-Route::controller(HomeController::class)->group(function () {
-    Route::get('/', 'index');
+Route::get('/', function () {
+    return redirect('/login');
 });
 
 Route::middleware([
