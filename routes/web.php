@@ -31,6 +31,9 @@ Route::middleware([
 Route::prefix('lab')->controller(LabController::class)->group(function () {
     Route::get('/', 'index');
     Route::get('/login', 'login');
+    Route::get('/create_account', 'create_account');
+    Route::get('/forgot_password', 'forgot_password');
+    Route::get('/login', 'login');
     Route::post('/ok', 'post_oke');
 });
 
