@@ -1,1 +1,0 @@
-import{_ as s}from"./_plugin-vue_export-helper-c27b6911.js";import{o,e as c,a as e,r}from"./app-8dcc7a4f.js";const n={},a={class:"c-app flex-row align-items-center"},i={class:"container"},_={class:"row justify-content-center"};function d(t,l){return o(),c("div",a,[e("div",i,[e("div",_,[r(t.$slots,"default")])])])}const p=s(n,[["render",d]]);export{p as L};
